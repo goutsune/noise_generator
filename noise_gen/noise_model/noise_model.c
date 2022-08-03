@@ -12,7 +12,7 @@
 float RawData;
 float SmoothData = 0;
 
-float 
+float
 get_wnoise(){
     return (randq64_double()*2.0 -1.0)/VOLUME_WN;
 }
