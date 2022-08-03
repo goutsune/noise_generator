@@ -1,12 +1,12 @@
 #
-# 'make depend' 				uses makedepend to automatically generate dependencies 
+# 'make depend' 				uses makedepend to automatically generate dependencies
 #               				(dependencies are added to end of Makefile)
 # 'make'        				build executable file 'white_noise' and 'white_noise_utest'
-# 'make white_noise'    		build executable file 'white_noise' 
-# 'make brown_noise'    		build executable file 'brown_noise' 
+# 'make white_noise'    		build executable file 'white_noise'
+# 'make brown_noise'    		build executable file 'brown_noise'
 # 'make white_noise_utest'     	build executable file 'white_noise_utest'
 
-# 'make clean'  		removes all .o 
+# 'make clean'  		removes all .o
 # 'make clean_all'  	removes all .o and executable files
 #
 
@@ -23,7 +23,7 @@ INCLUDES =
 # define library paths in addition to /usr/lib
 #   if I wanted to include libraries not in /usr/lib I'd specify
 #   their path using -Lpath, something like:
-LFLAGS = 
+LFLAGS =
 LDFLAGS = -lm -lcmocka
 
 # define the C source files
@@ -60,18 +60,18 @@ else
 endif
 
 # define any libraries to link into executable:
-#   if I want to link in libraries (libx.so or libx.a) I use the -llibname 
+#   if I want to link in libraries (libx.so or libx.a) I use the -llibname
 #   option, something like (this will link in libmylib.so and libm.so:
-LIBS = -lpthread  
+LIBS = -lpthread
 
 
 
 #COM_SOURCES := $(shell find $(SOURCEDIR) -name '*.c')
-COM_SOURCES	:= $(SOURCEDIR)/randq/randq.c 
+COM_SOURCES	:= $(SOURCEDIR)/randq/randq.c
 WNOISE_SRC	:= $(SOURCEDIR)/white_noise.c  $(SOURCEDIR)/noise_controller/noise_controller.c $(SOURCEDIR)/noise_model/noise_model.c
 BNOISE_SRC	:= $(SOURCEDIR)/brown_noise.c  $(SOURCEDIR)/noise_controller/noise_controller.c $(SOURCEDIR)/noise_model/noise_model.c
 WNOISEUTEST_SRC	:= $(SOURCEDIR)/white_noise_utest.c
-# define the C object files 
+# define the C object files
 #
 # This uses Suffix Replacement within a macro:
 #   $(name:string1=string2)

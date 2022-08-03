@@ -53,7 +53,7 @@ static int paCallback( const void *inputBuffer,
   return paContinue;
 }
 
-void 
+void
 init_noise_controller(PaStreamParameters *outputParameters, int noise)
 {
   /* Initialize PortAudio */
@@ -64,7 +64,7 @@ init_noise_controller(PaStreamParameters *outputParameters, int noise)
   outputParameters->device = Pa_GetDefaultOutputDevice();
   outputParameters->channelCount = 2;
   outputParameters->sampleFormat = paFloat32;
-  outputParameters->suggestedLatency = 
+  outputParameters->suggestedLatency =
     Pa_GetDeviceInfo( outputParameters->device )->defaultLowOutputLatency;
   outputParameters->hostApiSpecificStreamInfo = NULL;
 
@@ -82,7 +82,7 @@ void startAudio(PaStream **paStream, PaStreamParameters *outputParameters)
     /* Open audio stream */
     PaError err = Pa_OpenStream( &*paStream, NULL /* no input */,
              outputParameters,
-             SAMPLE_RATE, FRAMES_PER_BUFFER, paNoFlag, 
+             SAMPLE_RATE, FRAMES_PER_BUFFER, paNoFlag,
              paCallback, &data );
 
     if (err != paNoError) error(err);
@@ -92,9 +92,9 @@ void startAudio(PaStream **paStream, PaStreamParameters *outputParameters)
 }
 
 void stopAudio(PaStream **paStream ){
-	/* Stop audio stream */
+  /* Stop audio stream */
 
-	  PaError err = Pa_StopStream( *paStream );
+    PaError err = Pa_StopStream( *paStream );
     if (err != paNoError) error(err);
 
     /* Close audio stream */
@@ -109,9 +109,9 @@ void terminate_paudio(){
 }
 
 void error(PaError err){
-	Pa_Terminate();
-  	fprintf( stderr, "An error occured while using the portaudio stream\n" );
-  	fprintf( stderr, "Error number: %d\n", err );
-  	fprintf( stderr, "Error message: %s\n", Pa_GetErrorText( err ) );
-  	exit(0);
+  Pa_Terminate();
+    fprintf( stderr, "An error occured while using the portaudio stream\n" );
+    fprintf( stderr, "Error number: %d\n", err );
+    fprintf( stderr, "Error message: %s\n", Pa_GetErrorText( err ) );
+    exit(0);
 }

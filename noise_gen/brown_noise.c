@@ -14,36 +14,36 @@
 
 int noise_type;
 
-void 
+void
 killHandler(int dummy) {
-	terminate_paudio();
-	printf("\nBye Bye and thanks for all the fish.\n");
-	exit(0);
+    terminate_paudio();
+    printf("\nBye Bye and thanks for all the fish.\n");
+    exit(0);
 }
 
-int 
+int
 main(int argc, char const *argv[]){
-	printf("Start white noise main process:\n");
-	/* INIT */
- 	signal(SIGINT, killHandler);
+    printf("Start white noise main process:\n");
+    /* INIT */
+    signal(SIGINT, killHandler);
 
-	PaStream *stream = NULL;
-	PaStreamParameters outputParameters;
+    PaStream *stream = NULL;
+    PaStreamParameters outputParameters;
 
-	init_noise_controller(&outputParameters,BROWN_NOISE_TYPE);
-	printf("Hit ENTER to start/pause the whitenoise.\n");
-	printf("Hit ctrl+c to stop the program.\n");
+    init_noise_controller(&outputParameters,BROWN_NOISE_TYPE);
+    printf("Hit ENTER to start/pause the whitenoise.\n");
+    printf("Hit ctrl+c to stop the program.\n");
 
-	while (KEEP_RUNNING)
-	{
-		getchar();
-		startAudio(&stream, &outputParameters);
-		/* Play white noise */
-		getchar();
-		stopAudio(&stream);
-	}
+    while (KEEP_RUNNING)
+    {
+        getchar();
+        startAudio(&stream, &outputParameters);
+        /* Play white noise */
+        getchar();
+        stopAudio(&stream);
+    }
 
     /* Terminate audio stream */
 
-	return 0;
+    return 0;
 }
