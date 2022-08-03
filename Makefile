@@ -42,7 +42,7 @@ ifeq ($(OS),Windows_NT)
 else
 	UNAME_S := $(shell uname -s)
 	ifeq ($(UNAME_S),Linux)
-		OSFLAG += /usr/local/lib/libportaudio.a -lrt -lm -lasound -ljack
+		OSFLAG += -lportaudio -lrt -lm -lasound -ljack
 	endif
 	ifeq ($(UNAME_S),Darwin)
 		OSFLAG += /usr/local/opt/portaudio/lib/libportaudio.a  -framework CoreServices -framework CoreFoundation -framework AudioUnit -framework AudioToolbox -framework CoreAudio

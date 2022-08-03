@@ -12,7 +12,7 @@
 #define VERSION 0.9.0
 #define KEEP_RUNNING 1
 
-int noise_type;
+//int noise_type;
 
 void
 killHandler(int dummy) {
