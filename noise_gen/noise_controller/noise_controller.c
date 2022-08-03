@@ -2,25 +2,26 @@
 #include "../noise_model/noise_model.h"
 
 #define SAMPLE_RATE 44100
-#define TABLE_SIZE SAMPLE_RATE
+#define TABLE_SIZE 1024
 #define FRAMES_PER_BUFFER 256
 
 
 struct noise_struct {
-  double noise[TABLE_SIZE];
+  float noise_l[TABLE_SIZE];
+  float noise_r[TABLE_SIZE];
   int next;
 } data;
 
 int noise_type = 0;
 
-static float get_noise(int type){
+static float get_noise(int type, int slot){
   switch (type)
   {
   case WHITE_NOISE_TYPE:
     return get_wnoise();
     break;
   case BROWN_NOISE_TYPE:
-    return get_bnoise();
+    return get_bnoise(slot);
     break;
   default:
     exit(EXIT_FAILURE);
@@ -36,18 +37,21 @@ static int paCallback( const void *inputBuffer,
 
   struct noise_struct *data = (struct noise_struct*) userData;
   float *out = (float*) outputBuffer;
-  float sample;
+  float sample_l;
+  float sample_r;
   int i;
-  
+
   for (i = 0; i < framesPerBuffer; i++) {
-    sample = data->noise[data->next++];
-    *out++ = sample; /* left */
-    *out++ = sample; /* right */
-    if (data->next >= TABLE_SIZE){
+    sample_l = data->noise_l[data->next];
+    sample_r = data->noise_r[data->next++];
+    *out++ = sample_l; /* left */
+    *out++ = sample_r; /* right */
+    if (data->next >= TABLE_SIZE) {
       data->next -= TABLE_SIZE;
       for (int i = 0; i < TABLE_SIZE; i++) {
-		      data->noise[i] = get_noise(noise_type);
-	    }
+          data->noise_l[i] = get_noise(noise_type, 0);
+          data->noise_r[i] = get_noise(noise_type, 1);
+      }
     }
   }
   return paContinue;
@@ -70,10 +74,11 @@ init_noise_controller(PaStreamParameters *outputParameters, int noise)
 
   noise_type = noise;
   for (int i = 0; i < TABLE_SIZE; i++) {
-		data.noise[i] = get_noise(noise_type);
-	}
-	/* Initialize user data */
-	data.next = 0;
+    data.noise_l[i] = get_noise(noise_type, 0);
+    data.noise_r[i] = get_noise(noise_type, 1);
+  }
+  /* Initialize user data */
+  data.next = 0;
 
 }
 
